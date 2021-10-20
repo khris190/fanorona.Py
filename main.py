@@ -6,6 +6,6 @@ engine = game.Board()
 
 def main():
     print(engine.fields[:][:])
-    engine.CheckPossibleMoves(3,4)
+    engine.CheckPossibleMoves(3,3)
 
 main()

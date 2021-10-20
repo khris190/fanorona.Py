@@ -1,5 +1,6 @@
+import enum
 import numpy
-
+from enum import Enum
 
 class Board:
     fields = numpy.zeros((5, 9))
@@ -69,21 +70,28 @@ class Point:
         self.y = y
 
 
-class humPlayer:
-    color : int
+class PlayerType(Enum):
+    Human = 1
+    Computer = 2
+
+class Player:
+    playerType : PlayerType
+    Name : str
     lastMoveDirection : Vector
     lastMove : Point
 
+    def __init__(self, type : PlayerType, name : str) -> None:
+        self.playerType = PlayerType
+        self.Name = name
 
-class compPlayer:
-    color : int
-    lastMoveDirection : Vector
-    lastMove : Point
+    def MakeMove(self, fromLoc : Point, toLoc : Point) -> bool:
+        pass
 
-    def MakeMove(self) -> None:
+    def AI(self) -> bool:
         pass
 
 
 class env:
     board : Board
+
 
