@@ -24,6 +24,10 @@ class Board:
                     moves[i][j] = self.CheckPossibleMoves(j, i)
         return moves
 
+    #TODO funkcja sprawdzająca czy któryś z możliwych ruchów zbija pionki przeciwnika
+    #na wejściu x, y - pole planszy
+    # int[3][3] - możliwe ruchy bez uwzględnienia czy któryś zbija czy nie
+    # na wyściu int[3][3] gdzie brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
 
 
     def CheckPossibleMoves(self, x: int, y: int):
@@ -40,7 +44,7 @@ class Board:
             res[1][0] = self.IsEmpty(y, x-1)
             res[2][1] = self.IsEmpty(y+1, x)
             res[0][1] = self.IsEmpty(y-1, x)
-        print(res[:][:])
+        #print(res[:][:])
         return res
 
     def IsEmpty(self, y, x) -> bool:
