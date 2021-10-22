@@ -2,6 +2,7 @@ import enum
 import numpy
 from enum import Enum
 
+
 class Board:
     fields = numpy.zeros((5, 9))
 
@@ -16,18 +17,29 @@ class Board:
 
     # if x + y %2 == 0 to ruchy 8 ruchów else 4
 
-    def FindAllPossibleMovesForPlayer(self, player:int):
-        moves = numpy.zeros((5,9,3,3), numpy.int8)
+    def FindAllPossibleMovesForPlayer(self, player: int):
+        moves = numpy.zeros((5, 9, 3, 3), numpy.int8)
         for i in range(5):
             for j in range(9):
                 if self.fields[i][j] == player:
                     moves[i][j] = self.CheckPossibleMoves(j, i)
         return moves
 
-    #TODO funkcja sprawdzająca czy któryś z możliwych ruchów zbija pionki przeciwnika
-    #na wejściu x, y - pole planszy
+    # TODO funkcja sprawdzająca czy któryś z możliwych ruchów zbija pionki przeciwnika
+    # na wejściu x, y - pole planszy, typ playera typu int
     # int[3][3] - możliwe ruchy bez uwzględnienia czy któryś zbija czy nie
-    # na wyściu int[3][3] gdzie brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
+    # na wyściu int[3][3] gdzie 0 brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
+
+    #[mk] jeszcze rozkminiam jak co działa, więc tyle udało mi się napisać - nic :(
+    def FindBeatingPossibleMoves(self, player: int, x: int, y: int):
+        tmpX = x
+        tmpY = y
+
+        tmpPlayer = player
+        beatingmoves = numpy.zeros((3, 3), numpy.int8)
+        print(beatingmoves)
+        #if player == 1:
+
 
 
     def CheckPossibleMoves(self, x: int, y: int):
@@ -38,13 +50,13 @@ class Board:
         if (x + y) % 2 == 0:
             for i in range(3):
                 for j in range(3):
-                    res[i][j] = self.IsEmpty(y+i-1, x+j-1)
+                    res[i][j] = self.IsEmpty(y + i - 1, x + j - 1)
         else:
-            res[1][2] = self.IsEmpty(y, x+1)
-            res[1][0] = self.IsEmpty(y, x-1)
-            res[2][1] = self.IsEmpty(y+1, x)
-            res[0][1] = self.IsEmpty(y-1, x)
-        #print(res[:][:])
+            res[1][2] = self.IsEmpty(y, x + 1)
+            res[1][0] = self.IsEmpty(y, x - 1)
+            res[2][1] = self.IsEmpty(y + 1, x)
+            res[0][1] = self.IsEmpty(y - 1, x)
+        # print(res[:][:])
         return res
 
     def IsEmpty(self, y, x) -> bool:
@@ -55,13 +67,14 @@ class Board:
 
     # def move(self, x, y, xDest, yDest) -> bool:
 
+
 class Vector:
     x: int
     y: int
 
     def __init__(self, x: int, y: int) -> None:
         self.SetValues(x, y)
-    
+
     def SetValues(self, x: int, y: int):
         self.x = x
         self.y = y
@@ -76,8 +89,8 @@ class Vector:
 
 
 class Point:
-    x : int
-    y : int
+    x: int
+    y: int
 
     def __init__(self, x, y) -> None:
         self.x = x
@@ -88,17 +101,18 @@ class PlayerTypeEnum(Enum):
     Human = 1
     Computer = 2
 
-class Player:
-    playerType : PlayerTypeEnum
-    Name : str
-    lastMoveDirection : Vector
-    lastMove : Point
 
-    def __init__(self, type : PlayerTypeEnum, name : str) -> None:
+class Player:
+    playerType: PlayerTypeEnum
+    Name: str
+    lastMoveDirection: Vector
+    lastMove: Point
+
+    def __init__(self, type: PlayerTypeEnum, name: str) -> None:
         self.playerType = PlayerTypeEnum
         self.Name = name
 
-    def MakeMove(self, fromLoc : Point, toLoc : Point) -> bool:
+    def MakeMove(self, fromLoc: Point, toLoc: Point) -> bool:
         pass
 
     def AI(self) -> bool:
@@ -106,7 +120,7 @@ class Player:
 
 
 class env:
-    board : Board
+    board: Board
     player1 = Player(PlayerTypeEnum.Human, "1")
     player2 = Player(PlayerTypeEnum.Human, "2")
 
