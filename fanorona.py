@@ -16,6 +16,16 @@ class Board:
 
     # if x + y %2 == 0 to ruchy 8 ruchów else 4
 
+    def FindAllPossibleMovesForPlayer(self, player:int):
+        moves = numpy.zeros((5,9,3,3), numpy.int8)
+        for i in range(5):
+            for j in range(9):
+                if self.fields[i][j] == player:
+                    moves[i][j] = self.CheckPossibleMoves(j, i)
+        return moves
+
+
+
     def CheckPossibleMoves(self, x: int, y: int):
         tmpX = x
         tmpY = y
@@ -70,18 +80,18 @@ class Point:
         self.y = y
 
 
-class PlayerType(Enum):
+class PlayerTypeEnum(Enum):
     Human = 1
     Computer = 2
 
 class Player:
-    playerType : PlayerType
+    playerType : PlayerTypeEnum
     Name : str
     lastMoveDirection : Vector
     lastMove : Point
 
-    def __init__(self, type : PlayerType, name : str) -> None:
-        self.playerType = PlayerType
+    def __init__(self, type : PlayerTypeEnum, name : str) -> None:
+        self.playerType = PlayerTypeEnum
         self.Name = name
 
     def MakeMove(self, fromLoc : Point, toLoc : Point) -> bool:
@@ -93,5 +103,8 @@ class Player:
 
 class env:
     board : Board
+    player1 = Player(PlayerTypeEnum.Human, "1")
+    player2 = Player(PlayerTypeEnum.Human, "2")
 
-
+    def __init__(self) -> None:
+        pass
