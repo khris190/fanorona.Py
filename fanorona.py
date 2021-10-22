@@ -1,4 +1,6 @@
 import enum
+
+import board as board
 import numpy
 from enum import Enum
 
@@ -30,16 +32,25 @@ class Board:
     # int[3][3] - możliwe ruchy bez uwzględnienia czy któryś zbija czy nie
     # na wyściu int[3][3] gdzie 0 brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
 
-    #[mk] jeszcze rozkminiam jak co działa, więc tyle udało mi się napisać - nic :(
-    def FindBeatingPossibleMoves(self, player: int, x: int, y: int):
-        tmpX = x
-        tmpY = y
-
+    # [mk] jeszcze rozkminiam jak co działa, więc tyle udało mi się napisać - nic :(
+    def FindBeatingPossibleMoves(self, player: int, x: int, y: int, board: int[3][3]):
         tmpPlayer = player
         beatingmoves = numpy.zeros((3, 3), numpy.int8)
-        print(beatingmoves)
-        #if player == 1:
+        #print(beatingmoves)
+        if self.fields[x][y] == player:
+            for i in range(3):
+                for j in range(3):
+                    if board[i][j] == 1:
 
+
+                    else:
+                        beatingmoves[i][j] = 0
+
+
+
+
+    def getBoard(self, board: []):
+        return board
 
 
     def CheckPossibleMoves(self, x: int, y: int):
