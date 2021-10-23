@@ -32,26 +32,38 @@ class Board:
     # int[3][3] - możliwe ruchy bez uwzględnienia czy któryś zbija czy nie
     # na wyściu int[3][3] gdzie 0 brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
 
-    # [mk] jeszcze rozkminiam jak co działa, więc tyle udało mi się napisać - nic :(
+    # [mk] !!! TODO: Wstałem późno i napisałem głupotę, a już muszę zbierać. Najwyżej jak wrócę przerobię to, ew. daj
+    # znać co i jak
     def FindBeatingPossibleMoves(self, player: int, x: int, y: int, board: int[3][3]):
-        tmpPlayer = player
+        tmpX = x
+        tmpY = y
         beatingmoves = numpy.zeros((3, 3), numpy.int8)
-        #print(beatingmoves)
         if self.fields[x][y] == player:
             for i in range(3):
                 for j in range(3):
                     if board[i][j] == 1:
-
-
+                        directionX = (i - 1)
+                        directionY = (j - 1)
+                        for i in range(8):
+                            tmpX += directionX
+                            tmpY += directionY
+                            if (self.fields[y][x] != player and self.fields[y][x]) != 0:
+                                focunOn = True
+                                directionX *= -1
+                                directionY *= -1
+                                tmpX = x
+                                tmpY = y
+                                for i in range(8):
+                                    tmpX += directionX
+                                    tmpY += directionY
+                                    if (self.fields[y][x] == player):
+                                        beatingmoves[i][j] = 1
+                                    elif (self.fields[y][x] != player and self.fields[y][x]) != 0:
+                                        beatingmoves[i][j] = 3
+                                    else:
+                                        break
                     else:
                         beatingmoves[i][j] = 0
-
-
-
-
-    def getBoard(self, board: []):
-        return board
-
 
     def CheckPossibleMoves(self, x: int, y: int):
         tmpX = x
