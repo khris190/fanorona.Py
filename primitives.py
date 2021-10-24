@@ -1,4 +1,5 @@
 from enum import Enum
+import numpy
 
 
 class Vector:
@@ -36,3 +37,12 @@ class PlayerTypeEnum(Enum):
     Human = 1
     Computer = 2
 
+class Move:
+    x: int
+    y: int
+    moves = numpy.zeros((3, 3))
+
+    def __init__(self, x, y, moves):
+        self.x = x
+        self.y = y
+        self.moves = moves

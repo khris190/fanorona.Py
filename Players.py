@@ -14,7 +14,7 @@ class Player:
 
 
     #TODO zaimplementować ruch i zbijanie w metodzie MakeMove zbijanie przód tył na parametr funkcji
-    def MakeMove(self, fromLoc: Point, toLoc: Point, board: Board) -> None:
+    def MakeMove(self, move: Move, board: Board) -> None:
         pass
 
 

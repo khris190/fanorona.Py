@@ -1,7 +1,6 @@
 from typing import ForwardRef
 import numpy
 from primitives import *
-from Players import *
 
 
 class Board:
@@ -110,21 +109,10 @@ class Board:
     # def move(self, x, y, xDest, yDest) -> bool:
 
 
-class Move:
-    x: int
-    y: int
-    moves = numpy.zeros((3, 3))
-
-    def __init__(self, x, y, moves):
-        self.x = x
-        self.y = y
-        self.moves = moves
-
-
-class env:
-    board: Board
-    player1 = Player(PlayerTypeEnum.Human, "1")
-    player2 = Player(PlayerTypeEnum.Human, "2")
-
-    def __init__(self) -> None:
-        pass
+#class env:
+#    board: Board
+#    player1 = Player(PlayerTypeEnum.Human, "1")
+#    player2 = Player(PlayerTypeEnum.Human, "2")
+#
+#    def __init__(self) -> None:
+#        pass
