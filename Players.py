@@ -1,4 +1,5 @@
 from primitives import *
+from fanorona import Board
 
 
 class Player:
@@ -11,8 +12,12 @@ class Player:
         self.playerType = PlayerTypeEnum
         self.Name = name
 
-    def MakeMove(self, fromLoc: Point, toLoc: Point) -> bool:
+
+    #TODO zaimplementować ruch i zbijanie w metodzie MakeMove zbijanie przód tył na parametr funkcji
+    def MakeMove(self, fromLoc: Point, toLoc: Point, board: Board) -> None:
         pass
 
-    def AI(self) -> bool:
-        pass
+
+
+    def AI(self, playerType: PlayerTypeEnum, board: Board) -> bool:
+        moves = board.GetAllPlayerMovements(playerType)

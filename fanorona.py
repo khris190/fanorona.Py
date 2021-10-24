@@ -1,6 +1,7 @@
 from typing import ForwardRef
 import numpy
 from primitives import *
+from Players import *
 
 
 class Board:
@@ -17,15 +18,29 @@ class Board:
 
     # if x + y %2 == 0 to ruchy 8 ruchów else 4
 
-    def FindAllPossibleMovesForPlayer(self, player: int):
+    def GetAllPlayerMovements(self, player: int):
         moves = []
         for i in range(5):
             for j in range(9):
                 if self.fields[i][j] == player:
-                    move = self.CheckPossibleMoves(j, i)
-                    if any(1 in sublist for sublist in move) :
+                    move = self.GetEmptyPlacesForMovement(j, i)
+                    if any(1 in sublist for sublist in move):
+                        self.FindBeatingPossibleMoves(player, j, i, move)
+                        self.RefineMoves(move)
                         moves.append(Move(j, i, move))
         return moves
+
+    def RefineMoves(self, moves: list):
+        doRefine = False
+        for move in moves:
+            for x in move:
+                if x > 1:
+                    doRefine = True
+        if doRefine:
+            for move in moves:
+                for x in move:
+                    if x == 1:
+                        x = 0
 
     def FindBeatingPossibleMoves(self, player: int, x: int, y: int, moves):
         dirX = 0
@@ -36,7 +51,8 @@ class Board:
                 dirX = j - 1
                 dirY = i - 1
                 if moves[i][j] == 1:
-                    resMoves[i][j] = self.CheckFrontandBack(x, y, dirX, dirY)
+                    resMoves[i][j] = self.CheckFrontandBackForBeat(
+                        player, x, y, dirX, dirY)
         return resMoves
 
     # returns 1 if movement is possible without beating
@@ -44,7 +60,7 @@ class Board:
     # 3 if movement is possible with backward beat and
     # 4 if movement is possible with both forward and backward
 
-    def CheckFrontandBack(self, player, x, y, dirX, dirY) -> int:
+    def CheckFrontandBackForBeat(self, player, x, y, dirX, dirY) -> int:
         enemy = 1
         if player == 1:
             enemy = 2
@@ -68,10 +84,7 @@ class Board:
             return 2
         return 1
 
-    def GetMovesList(self, player: int):
-        pass
-
-    def CheckPossibleMoves(self, x: int, y: int):
+    def GetEmptyPlacesForMovement(self, x: int, y: int):
         tmpX = x
         tmpY = y
         res = numpy.zeros((3, 3))
@@ -106,7 +119,6 @@ class Move:
         self.x = x
         self.y = y
         self.moves = moves
-
 
 
 class env:
