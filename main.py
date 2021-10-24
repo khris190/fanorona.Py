@@ -6,6 +6,6 @@ engine = game.Board()
 
 def main():
     print(engine.fields[:][:])
-    test = engine.FindAllPossibleMovesForPlayer(1)
+    test = engine.FindAllPossibleMovesForPlayer(2)
     print(test)
 main()

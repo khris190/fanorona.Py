@@ -1,6 +1,7 @@
-import enum
+from typing import ForwardRef
 import numpy
-from enum import Enum
+from primitives import *
+
 
 class Board:
     fields = numpy.zeros((5, 9))
@@ -16,24 +17,59 @@ class Board:
 
     # if x + y %2 == 0 to ruchy 8 ruchów else 4
 
-    def FindAllPossibleMovesForPlayer(self, player : int):
-        moves = numpy.zeros((5,9,3,3), numpy.int8)
+    def FindAllPossibleMovesForPlayer(self, player: int):
+        moves = []
         for i in range(5):
             for j in range(9):
                 if self.fields[i][j] == player:
-                    moves[i][j] = self.CheckPossibleMoves(j, i)
+                    move = self.CheckPossibleMoves(j, i)
+                    if any(1 in sublist for sublist in move) :
+                        moves.append(Move(j, i, move))
         return moves
 
-    #TODO funkcja sprawdzająca czy któryś z możliwych ruchów zbija pionki przeciwnika
-    #na wejściu x, y - pole planszy
-    # int[3][3] - możliwe ruchy bez uwzględnienia czy któryś zbija czy nie
-    # na wyściu int[3][3] gdzie brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
+    def FindBeatingPossibleMoves(self, player: int, x: int, y: int, moves):
+        dirX = 0
+        dirY = 0
+        resMoves = numpy.zeros((3, 3))
+        for i in range(3):
+            for j in range(3):
+                dirX = j - 1
+                dirY = i - 1
+                if moves[i][j] == 1:
+                    resMoves[i][j] = self.CheckFrontandBack(x, y, dirX, dirY)
+        return resMoves
 
+    # returns 1 if movement is possible without beating
+    # 2 if movement is possible with forward beat
+    # 3 if movement is possible with backward beat and
+    # 4 if movement is possible with both forward and backward
 
+    def CheckFrontandBack(self, player, x, y, dirX, dirY) -> int:
+        enemy = 1
+        if player == 1:
+            enemy = 2
+        forward = False
+        backward = False
+        # check front
+        tmpX = x + 2 * dirX
+        tmpY = y + 2 * dirY
+        if tmpX < 9 and tmpY < 9 and tmpX >= 0 and tmpY >= 0:
+            forward = (self.fields[tmpY][tmpX] == enemy)
+        # check back
+        tmpX = x - dirX
+        tmpY = y - dirY
+        if tmpX < 9 and tmpY < 9 and tmpX >= 0 and tmpY >= 0:
+            backward = (self.fields[tmpY][tmpX] == enemy)
+        if forward and backward:
+            return 4
+        if backward:
+            return 3
+        if forward:
+            return 2
+        return 1
 
     def GetMovesList(self, player: int):
         pass
-        
 
     def CheckPossibleMoves(self, x: int, y: int):
         tmpX = x
@@ -43,13 +79,13 @@ class Board:
         if (x + y) % 2 == 0:
             for i in range(3):
                 for j in range(3):
-                    res[i][j] = self.IsEmpty(y+i-1, x+j-1)
+                    res[i][j] = self.IsEmpty(y + i - 1, x + j - 1)
         else:
-            res[1][2] = self.IsEmpty(y, x+1)
-            res[1][0] = self.IsEmpty(y, x-1)
-            res[2][1] = self.IsEmpty(y+1, x)
-            res[0][1] = self.IsEmpty(y-1, x)
-        #print(res[:][:])
+            res[1][2] = self.IsEmpty(y, x + 1)
+            res[1][0] = self.IsEmpty(y, x - 1)
+            res[2][1] = self.IsEmpty(y + 1, x)
+            res[0][1] = self.IsEmpty(y - 1, x)
+        # print(res[:][:])
         return res
 
     def IsEmpty(self, y, x) -> bool:
@@ -60,60 +96,21 @@ class Board:
 
     # def move(self, x, y, xDest, yDest) -> bool:
 
-class Vector:
+
+class Move:
     x: int
     y: int
-    value : int
+    moves = numpy.zeros((3, 3))
 
-    def __init__(self, x: int, y: int, value : int) -> None:
-        self.SetValues(x, y, value)
-    
-    def SetValues(self, x: int, y: int, value : int):
-        self.value = value
+    def __init__(self, x, y, moves):
         self.x = x
         self.y = y
-        if x < 0:
-            self.x = -1
-        elif x > 0:
-            self.x = 1
-        if y < 0:
-            self.y = -1
-        elif y > 0:
-            self.y = 1
+        self.moves = moves
 
-
-class Point:
-    x : int
-    y : int
-
-    def __init__(self, x, y) -> None:
-        self.x = x
-        self.y = y
-
-
-class PlayerTypeEnum(Enum):
-    Human = 1
-    Computer = 2
-
-class Player:
-    playerType : PlayerTypeEnum
-    Name : str
-    lastMoveDirection : Vector
-    lastMove : Point
-
-    def __init__(self, type : PlayerTypeEnum, name : str) -> None:
-        self.playerType = PlayerTypeEnum
-        self.Name = name
-
-    def MakeMove(self, fromLoc : Point, toLoc : Point) -> bool:
-        pass
-
-    def AI(self) -> bool:
-        pass
 
 
 class env:
-    board : Board
+    board: Board
     player1 = Player(PlayerTypeEnum.Human, "1")
     player2 = Player(PlayerTypeEnum.Human, "2")
 
