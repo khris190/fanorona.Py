@@ -37,7 +37,7 @@ class PlayerTypeEnum(Enum):
     Human = 1
     Computer = 2
 
-class Move:
+class PositionMove:
     x: int
     y: int
     moves = numpy.zeros((3, 3))
