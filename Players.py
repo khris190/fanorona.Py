@@ -12,15 +12,15 @@ class Player:
         self.playerType = PlayerTypeEnum
         self.Name = name
 
-    #TODO zaimplementować ruch i zbijanie w metodzie MakeMove zbijanie przód tył na parametr funkcji
-    def MakeMove(self, point: Point, board: Board, vector: Vector) -> None:
+    #TODO sprawdzić czy działa
+    def MakeMove(self, board: Board, moves: PositionMove) -> None:
         boardCopy = board.fields.copy()
 
-        currentPosX = point.x
-        currentPosY = point.y
+        currentPosX = moves.x
+        currentPosY = moves.y
 
-        nextPosX = currentPosX + vector.x
-        nextPosY = currentPosY + vector.y
+        nextPosX = currentPosX + moves.vectorX
+        nextPosY = currentPosY + moves.vectorY
 
         #remove current pos
         boardCopy[currentPosX][currentPosY] = 0
@@ -31,8 +31,8 @@ class Player:
         tmpY = nextPosY
 
         while not (tmpX < 9 and tmpY < 9 and tmpX >= 0 and tmpY >= 0):
-            tmpX += vector.x
-            tmpY += vector.y
+            tmpX += moves.vectorX
+            tmpY += moves.vectorY
             if (boardCopy[tmpX][tmpY] != self.playerType and boardCopy[tmpX][tmpY] != 0 ):
                 break
             boardCopy[tmpX][tmpY] = 0
