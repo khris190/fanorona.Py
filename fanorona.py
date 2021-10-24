@@ -32,11 +32,13 @@ class Board:
     # int[3][3] - możliwe ruchy bez uwzględnienia czy któryś zbija czy nie
     # na wyściu int[3][3] gdzie 0 brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
 
-    # [mk] !!! TODO: Wstałem późno i napisałem głupotę, a już muszę zbierać. Najwyżej jak wrócę przerobię to, ew. daj
-    # znać co i jak
-    def FindBeatingPossibleMoves(self, player: int, x: int, y: int, board: int[3][3]):
+    # [mk] Wydaje mi się że powinno działać, ale nie sprawdzałem, bo nie chciało mi się wyciągać tych pól z biciem
+
+    def FindBeatingPossibleMoves(self, player: int, x: int, y: int, board):
         tmpX = x
         tmpY = y
+        focusOn = False
+        focusOut = False
         beatingmoves = numpy.zeros((3, 3), numpy.int8)
         if self.fields[x][y] == player:
             for i in range(3):
@@ -44,26 +46,33 @@ class Board:
                     if board[i][j] == 1:
                         directionX = (i - 1)
                         directionY = (j - 1)
-                        for i in range(8):
+                        while not (tmpX == 9 or tmpX == -1 or tmpY == 5 or tmpY == -1):
                             tmpX += directionX
                             tmpY += directionY
-                            if (self.fields[y][x] != player and self.fields[y][x]) != 0:
-                                focunOn = True
-                                directionX *= -1
-                                directionY *= -1
-                                tmpX = x
-                                tmpY = y
-                                for i in range(8):
-                                    tmpX += directionX
-                                    tmpY += directionY
-                                    if (self.fields[y][x] == player):
-                                        beatingmoves[i][j] = 1
-                                    elif (self.fields[y][x] != player and self.fields[y][x]) != 0:
-                                        beatingmoves[i][j] = 3
-                                    else:
-                                        break
+                            if (self.fields[tmpX][tmpY] != player and self.fields[tmpX][tmpY]) != 0:
+                                focusOn = True
+                        directionX *= -1
+                        directionY *= -1
+                        tmpX = x
+                        tmpY = y
+                        while not (tmpX == 9 or tmpX == -1 or tmpY == 5 or tmpY == -1):
+                            tmpX += directionX
+                            tmpY += directionY
+                            if (self.fields[tmpX][tmpY] != player and self.fields[tmpX][tmpY]) != 0:
+                                focusOut = True
+                        if (focusOn == True and focusOut == True):
+                            beatingmoves[i][j] = 3
+                        elif (focusOn == False and focusOut == True):
+                            beatingmoves[i][j] = 2
+                        elif (focusOn == True and focusOut == False):
+                            beatingmoves[i][j] = 1
+                        elif (focusOn == False and focusOut == False):
+                            beatingmoves[i][j] = 0
+                        focusOut = False
+                        focusOn = False
                     else:
                         beatingmoves[i][j] = 0
+        return beatingmoves
 
     def CheckPossibleMoves(self, x: int, y: int):
         tmpX = x

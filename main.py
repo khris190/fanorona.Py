@@ -8,6 +8,4 @@ def main():
     print(engine.fields[:][:])
     test = engine.FindAllPossibleMovesForPlayer(1)
     print(test)
-    for i in range(3):
-        print(i)
 main()
