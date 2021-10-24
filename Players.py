@@ -12,7 +12,7 @@ class Player:
         self.playerType = PlayerTypeEnum
         self.Name = name
 
-    # TODO sprawdzić czy działa
+    # TODO dla pewności blokować przejścia na nie puste miejsca(ale ruchy powinny być robione z listy dostępnych więc wyjebane)
     #zwraca nową planszę, boola informującego czy pionek zbił i kierunek bicia
     def MakeMove(self, board: Board, move: Move, beatingDirection: BeatingDirectionEnum):
         boardCopy = board.fields.copy()
