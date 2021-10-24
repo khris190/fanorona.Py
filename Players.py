@@ -12,36 +12,53 @@ class Player:
         self.playerType = PlayerTypeEnum
         self.Name = name
 
-    #TODO sprawdzić czy działa
-    def MakeMove(self, board: Board, move: Move) -> None:
+    # TODO sprawdzić czy działa
+    #zwraca nową planszę, boola informującego czy pionek zbił i kierunek bicia
+    def MakeMove(self, board: Board, move: Move, beatingDirection: BeatingDirectionEnum):
         boardCopy = board.fields.copy()
 
-        currentPosX = move.x
-        currentPosY = move.y
+        currentPos = move.position
 
-        nextPosX = currentPosX + move.vectorX
-        nextPosY = currentPosY + move.vectorY
+        nextPos = move.GetNextPosition()
 
-        #remove current pos
-        boardCopy[currentPosX][currentPosY] = 0
-        #add new pos
-        boardCopy[nextPosX][nextPosY] = self.playerType
+        # result bool that shows if something was beaten
+        wasBeaten = False
 
-        tmpX = nextPosX
-        tmpY = nextPosY
+        #get enemy and player number
+        player = 2
+        enemy = 1
+        if boardCopy[currentPos.y][currentPos.x] == 1:
+            player = 1
+            enemy = 2
 
-        while not (tmpX < 9 and tmpY < 9 and tmpX >= 0 and tmpY >= 0):
-            tmpX += move.vectorX
-            tmpY += move.vectorY
-            if (boardCopy[tmpX][tmpY] != self.playerType and boardCopy[tmpX][tmpY] != 0 ):
-                break
-            boardCopy[tmpX][tmpY] = 0
+        # remove current pos
+        boardCopy[currentPos.y][currentPos.x] = 0
+        # add new pos
+        boardCopy[nextPos.y][nextPos.x] = player
 
-        return boardCopy
+        tmpX = nextPos.x
+        tmpY = nextPos.y
+        if beatingDirection == BeatingDirectionEnum.forward:
+            while (tmpX < 8 and tmpY < 8 and tmpX > 0 and tmpY > 0):
+                tmpX += move.direction.x
+                tmpY += move.direction.y
+                if (boardCopy[tmpY][tmpX] != enemy):
+                    break
+                boardCopy[tmpY][tmpX] = 0
+                wasBeaten = True
+        # beat backward
+        else:
+            tmpX = currentPos.x
+            tmpY = currentPos.y
+            while (tmpX < 8 and tmpY < 8 and tmpX > 0 and tmpY > 0):
+                tmpX -= move.direction.x
+                tmpY -= move.direction.y
+                if (boardCopy[tmpY][tmpX] != enemy):
+                    break
+                boardCopy[tmpY][tmpX] = 0
+                wasBeaten = True
 
-
-
-
+        return boardCopy, wasBeaten, move.direction
 
     def AI(self, playerType: PlayerTypeEnum, board: Board) -> bool:
         moves = board.GetAllPlayerMovements(playerType)
