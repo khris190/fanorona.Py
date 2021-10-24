@@ -13,14 +13,14 @@ class Player:
         self.Name = name
 
     #TODO sprawdzić czy działa
-    def MakeMove(self, board: Board, moves: PositionMove) -> None:
+    def MakeMove(self, board: Board, move: Move) -> None:
         boardCopy = board.fields.copy()
 
-        currentPosX = moves.x
-        currentPosY = moves.y
+        currentPosX = move.x
+        currentPosY = move.y
 
-        nextPosX = currentPosX + moves.vectorX
-        nextPosY = currentPosY + moves.vectorY
+        nextPosX = currentPosX + move.vectorX
+        nextPosY = currentPosY + move.vectorY
 
         #remove current pos
         boardCopy[currentPosX][currentPosY] = 0
@@ -31,8 +31,8 @@ class Player:
         tmpY = nextPosY
 
         while not (tmpX < 9 and tmpY < 9 and tmpX >= 0 and tmpY >= 0):
-            tmpX += moves.vectorX
-            tmpY += moves.vectorY
+            tmpX += move.vectorX
+            tmpY += move.vectorY
             if (boardCopy[tmpX][tmpY] != self.playerType and boardCopy[tmpX][tmpY] != 0 ):
                 break
             boardCopy[tmpX][tmpY] = 0

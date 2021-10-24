@@ -36,27 +36,20 @@ class PlayerTypeEnum(Enum):
     Computer = 2
 
 
-class PositionMove:
+class PositionMoves:
     x: int
     y: int
-    value: int
-    vectorX: int
-    vectorY: int
+    moves = numpy.zeros((3,3))
 
-    def __init__(self, x, y, value, vectorX, vectorY):
+    def __init__(self, x, y, moves):
         self.x = x
         self.y = y
-        self.SetValues(vectorX, vectorY, value)
+        self.moves = moves
 
-    def SetValues(self, x: int, y: int, value: int):
-        self.value = value
-        self.vectorX = x
-        self.vectorY = y
-        if x < 0:
-            self.vectorX = -1
-        elif x > 0:
-            self.vectorX = 1
-        if y < 0:
-            self.vectorY = -1
-        elif y > 0:
-            self.vectorY = 1
+class Move:
+    position: Point
+    moveDir: Vector
+
+    def __init__(self, point: Point, movement: Vector):
+        self.position = point
+        self.moveDir = movement

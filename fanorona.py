@@ -26,7 +26,7 @@ class Board:
                     if any(1 in sublist for sublist in move):
                         self.FindBeatingPossibleMoves(player, j, i, move)
                         self.RefineMoves(move)
-                        moves.append(Move(j, i, move))
+                        moves.append(PositionMoves(j, i, move))
         return moves
 
     def RefineMoves(self, moves: list):
