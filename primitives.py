@@ -41,6 +41,7 @@ class PlayerTypeEnum(Enum):
     Computer = 2
 
 class BeatingDirectionEnum(Enum):
+    noBeat = 1
     forward = 2
     backward = 3
 
