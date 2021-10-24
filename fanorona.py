@@ -16,7 +16,7 @@ class Board:
 
     # if x + y %2 == 0 to ruchy 8 ruchów else 4
 
-    def FindAllPossibleMovesForPlayer(self, player:int):
+    def FindAllPossibleMovesForPlayer(self, player : int):
         moves = numpy.zeros((5,9,3,3), numpy.int8)
         for i in range(5):
             for j in range(9):
@@ -29,6 +29,11 @@ class Board:
     # int[3][3] - możliwe ruchy bez uwzględnienia czy któryś zbija czy nie
     # na wyściu int[3][3] gdzie brak ruchu, 1 ruch zbijający na zbiżeniu 2 zbijający na oddaleniu i 3 obie typy zbicia
 
+
+
+    def GetMovesList(self, player: int):
+        pass
+        
 
     def CheckPossibleMoves(self, x: int, y: int):
         tmpX = x
@@ -58,11 +63,13 @@ class Board:
 class Vector:
     x: int
     y: int
+    value : int
 
-    def __init__(self, x: int, y: int) -> None:
-        self.SetValues(x, y)
+    def __init__(self, x: int, y: int, value : int) -> None:
+        self.SetValues(x, y, value)
     
-    def SetValues(self, x: int, y: int):
+    def SetValues(self, x: int, y: int, value : int):
+        self.value = value
         self.x = x
         self.y = y
         if x < 0:
