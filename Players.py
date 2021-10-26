@@ -5,16 +5,18 @@ from fanorona import Board
 class Player:
     playerType: PlayerTypeEnum
     Name: str
+    playerNumber: int
     lastMoveDirection: Vector
     lastMove: Point
 
-    def __init__(self, type: PlayerTypeEnum, name: str) -> None:
+    def __init__(self, type: PlayerTypeEnum, name: str,playerNumber: int) -> None:
         self.playerType = PlayerTypeEnum
         self.Name = name
+        self.playerNumber = playerNumber
 
     # TODO dla pewności blokować przejścia na nie puste miejsca(ale ruchy powinny być robione z listy dostępnych więc wyjebane)
     #zwraca nową planszę, boola informującego czy pionek zbił i kierunek bicia
-    def MakeMove(self, board: Board, move: Move, beatingDirection: BeatingDirectionEnum):
+    def MakeMove(self, board: Board, move: Move):
         boardCopy = board.fields.copy()
 
         currentPos = move.position
@@ -38,8 +40,8 @@ class Player:
 
         tmpX = nextPos.x
         tmpY = nextPos.y
-        if beatingDirection == BeatingDirectionEnum.forward:
-            while (tmpX < 8 and tmpY < 8 and tmpX > 0 and tmpY > 0):
+        if move.beatType == BeatingDirectionEnum.forward:
+            while (tmpX < 8 and tmpY < 4 and tmpX > 0 and tmpY > 0):
                 tmpX += move.direction.x
                 tmpY += move.direction.y
                 if (boardCopy[tmpY][tmpX] != enemy):
@@ -50,15 +52,34 @@ class Player:
         else:
             tmpX = currentPos.x
             tmpY = currentPos.y
-            while (tmpX < 8 and tmpY < 8 and tmpX > 0 and tmpY > 0):
+            while (tmpX < 8 and tmpY < 4 and tmpX > 0 and tmpY > 0):
                 tmpX -= move.direction.x
                 tmpY -= move.direction.y
                 if (boardCopy[tmpY][tmpX] != enemy):
                     break
                 boardCopy[tmpY][tmpX] = 0
                 wasBeaten = True
+    
+        nextMoves = []
+        if wasBeaten:
+            tmpBoard = Board()
+            tmpBoard.fields = boardCopy
+            #print(boardCopy[:][:])
+            nextmove = tmpBoard.GetEmptyPlacesForMovement(nextPos.x, nextPos.y)
 
-        return boardCopy, wasBeaten, move.direction
+            nextmove[move.direction.y + 1][move.direction.x + 1] = 0
+            nextmove[-move.direction.y + 1][-move.direction.x + 1] = 0
+
+
+            tmpMoves = tmpBoard.FindBeatingPossibleMoves(player, nextPos.x, nextPos.y, nextmove)
+            if tmpBoard.RefineMoves(nextmove):
+                tmpMoves = Move.CreateMovesListFromPositionMoves(PositionMoves(nextPos.x, nextPos.y, nextmove))
+                for tmpmove in tmpMoves:
+                    if tmpmove.beatType != BeatingDirectionEnum.noBeat:
+                        nextMoves.append(tmpmove)
+
+
+        return boardCopy, wasBeaten, move.direction, nextMoves
 
     def AI(self, playerType: PlayerTypeEnum, board: Board) -> bool:
         moves = board.GetAllPlayerMovements(playerType)
