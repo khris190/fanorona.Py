@@ -26,6 +26,9 @@ def PlayARandomGame():
 
         moveVal, board, changePlayer = player.AI_MinMax(3, engine)
         engine.fields = board
+
+
+
         print(engine.fields[:][:])
 
         if changePlayer:
@@ -34,7 +37,7 @@ def PlayARandomGame():
             else:
                 player = player1
 
-        allMoves = engine.GetAllPlayerMovements(player.playerNumber)
+        # allMoves = engine.GetAllPlayerMovements(player.playerNumber)
         movecount = len(allMoves)
         moveamount.append(movecount)
     return movecounter, moveamount

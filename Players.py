@@ -1,3 +1,5 @@
+import random
+
 from primitives import *
 from fanorona import Board
 import random
@@ -12,7 +14,7 @@ class Player:
     lastMoveDirection: Vector
     lastMove: Point
 
-    def __init__(self, type: PlayerTypeEnum, name: str,playerNumber: int) -> None:
+    def __init__(self, type: PlayerTypeEnum, name: str, playerNumber: int) -> None:
         self.playerType = PlayerTypeEnum
         self.Name = name
         self.playerNumber = playerNumber
@@ -30,7 +32,7 @@ class Player:
         # result bool that shows if something was beaten
         wasBeaten = False
 
-        #get enemy and player number
+        # get enemy and player number
         player = 2
         enemy = 1
         if boardCopy[currentPos.y][currentPos.x] == 1:
@@ -74,12 +76,11 @@ class Player:
         if wasBeaten:
             tmpBoard = Board()
             tmpBoard.fields = boardCopy
-            #print(boardCopy[:][:])
+            # print(boardCopy[:][:])
             nextmove = tmpBoard.GetEmptyPlacesForMovement(nextPos.x, nextPos.y)
 
             nextmove[move.direction.y + 1][move.direction.x + 1] = 0
             nextmove[-move.direction.y + 1][-move.direction.x + 1] = 0
-
 
             tmpMoves = tmpBoard.FindBeatingPossibleMoves(player, nextPos.x, nextPos.y, nextmove)
             if tmpBoard.RefineMoves(nextmove) and tmpMoves != None:
@@ -93,11 +94,8 @@ class Player:
             else:
                 nextMoves = []
 
-
         return boardCopy, nextMoves
 
-    def AI(self, playerType: PlayerTypeEnum, board: Board) -> bool:
-        moves = board.GetAllPlayerMovements(playerType)
 
     def AI_MinMax(self, depth: int, board: Board):
         movesList = board.GetAllPlayerMovements(self.playerNumber)
@@ -172,10 +170,21 @@ class Player:
         
         return value
 
-            
-
-
-
-
-
     
+    # random move
+    def AIRandom(self, board: Board):
+
+        allMoves = board.GetAllPlayerMovements(self.playerNumber)
+        movecount = len(allMoves)
+
+        if movecount != 0:
+            board1, allMoves = self.MakeMove(
+                board, allMoves[random.randint(0, movecount - 1)])
+            Board.fields = board1
+
+            while allMoves != None and len(allMoves) > 0:
+                movecount = len(allMoves)
+
+                board1, allMoves = self.MakeMove(
+                    board, allMoves[random.randint(0, movecount - 1)])
+                Board.fields = board1
