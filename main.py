@@ -6,7 +6,6 @@ import random
 import statistics
 
 
-
 def PlayARandomGame():
 
     engine = game.Board()
@@ -19,17 +18,22 @@ def PlayARandomGame():
     allMoves = engine.GetAllPlayerMovements(player.playerNumber)
     movecount = len(allMoves)
     moveamount.append(movecount)
+    moveVal = 0
+    surrendered1 = False
+    surrendered2 = False
 
     while movecount > 0:
         movecounter += 1
 
+        if player == player2:
+            #moveVal, board, changePlayer = player.AI_MinMax(1, engine)
+            #engine.fields = board
+            player.AIRandom(engine)
+            changePlayer = True
 
-        moveVal, board, changePlayer = player.AI_MinMax(3, engine)
-        engine.fields = board
-
-
-
-        print(engine.fields[:][:])
+        else:
+            moveVal, board, changePlayer = player.AI_MinMax(2, engine)
+            engine.fields = board
 
         if changePlayer:
             if player == player1:
@@ -37,23 +41,28 @@ def PlayARandomGame():
             else:
                 player = player1
 
-        # allMoves = engine.GetAllPlayerMovements(player.playerNumber)
+        allMoves = engine.GetAllPlayerMovements(player.playerNumber)
         movecount = len(allMoves)
         moveamount.append(movecount)
-    return movecounter, moveamount
+    print(engine.fields[:][:])
+    return movecounter, moveamount, engine.CalculatePlayerLead(1) > 0
 
 
 def main():
     MoveCountList = []
     meanPossibleMoveAmountList = []
+    winsList = []
 
-    for i in range(1):
+    for i in range(100):
         print(i)
-        count, moveAmountList = PlayARandomGame()
+        count, moveAmountList, wins = PlayARandomGame()
         MoveCountList.append(count)
+        winsList.append(wins)
         meanPossibleMoveAmountList.append(statistics.mean(moveAmountList))
 
     print(statistics.mean(meanPossibleMoveAmountList))
     print(statistics.mean(MoveCountList))
+    print(statistics.mean(winsList))
+
 
 main()

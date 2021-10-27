@@ -82,7 +82,10 @@ class Player:
             nextmove[move.direction.y + 1][move.direction.x + 1] = 0
             nextmove[-move.direction.y + 1][-move.direction.x + 1] = 0
 
-            tmpMoves = tmpBoard.FindBeatingPossibleMoves(player, nextPos.x, nextPos.y, nextmove)
+            tmpBoard.FindBeatingPossibleMoves(player, nextPos.x, nextPos.y, nextmove)
+            tmpBoard.RefineMoves(nextmove)
+            tmpMoves = Move.CreateMovesListFromPositionMoves(PositionMoves(nextPos.x, nextPos.y, nextmove))
+
             if tmpBoard.RefineMoves(nextmove) and tmpMoves != None:
                 tmpMoves = Move.CreateMovesListFromPositionMoves(PositionMoves(nextPos.x, nextPos.y, nextmove))
                 for tmpmove in tmpMoves:
@@ -104,6 +107,7 @@ class Player:
         winValue = value
         retBoard = Board()
         retBoard.fields = board.fields.copy()
+        retChangePlayer = False
 
 
         for move in movesList:
@@ -112,60 +116,69 @@ class Player:
             returnedBoard, allMoves = self.MakeMove(tmpBoard, move)
 
             tmpBoard.fields = returnedBoard.copy()
+            changePlayer = True
 
             #liczę kilkukrotne zbicia jako tą samą turę
             if allMoves != None and len(allMoves) > 0:
-                value = max(value, self.MinMax(depth, tmpBoard, self.playerNumber, True))
+                value = max(value, self.MinMax(depth, tmpBoard, self.playerNumber, allMoves, True))
+                changePlayer = False 
             else:
+                playerNum = 1
                 if self.playerNumber == 1:
-                    value = max(value, self.MinMax(depth - 1, tmpBoard, 2, False))
-                else:
-                    value = max(value, self.MinMax(depth - 1, tmpBoard, 1, False))
+                    playerNum = 2
+                movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
+                value = max(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, False))
 
 
             if winValue < value:
                 winValue = value
                 retBoard = tmpBoard
+                retChangePlayer = changePlayer
 
-        return  winValue, retBoard.fields, not(allMoves != None and len(allMoves) > 0)
+        return  winValue, retBoard.fields, retChangePlayer
         
 
-    def MinMax(self, depth: int, board: Board, playerNumber: int, maximizing: bool = True):
+    def MinMax(self, depth: int, board: Board, playerNumber: int, movesList : list, maximizing: bool):
         nodeVal = board.CalculatePlayerLead(playerNumber)
-        if depth < 1 or infinityEval == nodeVal or infinityEval == -nodeVal:
+        if depth < 1 or infinity == nodeVal or infinity == -nodeVal:
+            if not maximizing:
+                nodeVal *= -1
             return nodeVal
-        movesList = board.GetAllPlayerMovements(playerNumber)
 
         if maximizing == True:
             value = -infinityEval
             for move in movesList:
                 tmpBoard = Board()
+                tmpBoard.fields = board.fields.copy()
                 returnedBoard, allMoves = self.MakeMove(tmpBoard, move)
                 tmpBoard.fields = returnedBoard.copy()
 
                 #liczę kilkukrotne zbicia jako tą samą turę
                 if allMoves != None and len(allMoves) > 0:
-                    value = max(value, self.MinMax(depth, tmpBoard, playerNumber, True))
+                    value = max(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, True))
                 else:
+                    playerNum = 1
                     if playerNumber == 1:
-                        value = max(value, self.MinMax(depth - 1, tmpBoard, 2, False))
-                    else:
-                        value = max(value, self.MinMax(depth - 1, tmpBoard, 1, False))
+                        playerNum = 2
+                    movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
+                    value = max(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, False))
         else:
             value = infinityEval
             for move in movesList:
                 tmpBoard = Board()
+                tmpBoard.fields = board.fields.copy()
                 returnedBoard, allMoves = self.MakeMove(tmpBoard, move)
                 tmpBoard.fields = returnedBoard.copy()
 
                 #liczę kilkukrotne zbicia jako tą samą turę
                 if allMoves != None and len(allMoves) > 0:
-                    value = min(value, self.MinMax(depth, tmpBoard, playerNumber, True))
+                    value = min(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, False))
                 else:
+                    playerNum = 1
                     if playerNumber == 1:
-                        value = min(value, self.MinMax(depth - 1, tmpBoard, 2, False))
-                    else:
-                        value = min(value, self.MinMax(depth - 1, tmpBoard, 1, False))
+                        playerNum = 2
+                    movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
+                    value = min(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, True))
 
         
         return value
@@ -180,11 +193,11 @@ class Player:
         if movecount != 0:
             board1, allMoves = self.MakeMove(
                 board, allMoves[random.randint(0, movecount - 1)])
-            Board.fields = board1
+            board.fields = board1
 
             while allMoves != None and len(allMoves) > 0:
                 movecount = len(allMoves)
 
                 board1, allMoves = self.MakeMove(
                     board, allMoves[random.randint(0, movecount - 1)])
-                Board.fields = board1
+                board.fields = board1

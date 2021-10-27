@@ -18,7 +18,7 @@ class Board:
 
 
     # if x + y %2 == 0 to ruchy 8 ruchów else 4
-
+    #FIXME nie zwraca wszystkich ruchow
     def GetAllPlayerMovements(self, player: int):
         moves = []
         for i in range(5):
