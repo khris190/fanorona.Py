@@ -58,6 +58,7 @@ class PositionMoves:
         self.moves = moves
 
 
+# class that stores one movement , position at the start of the move, direction of the movement and type of the beat
 class Move:
     position: Point
     direction: Vector
