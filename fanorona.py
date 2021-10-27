@@ -1,6 +1,7 @@
 from typing import ForwardRef
 import numpy
 from primitives import *
+infinity = 32767
 
 
 class Board:
@@ -123,6 +124,23 @@ class Board:
             return False
 
     # def move(self, x, y, xDest, yDest) -> bool:
+
+    def CalculatePlayerLead(self, playerNumber: int) -> int:
+        playerCount = 0
+        enemyCount = 0
+        for i in range(5):
+            for j in range(9):
+                if self.fields[i][j] == playerNumber:
+                    playerCount += 1
+                elif self.fields[i][j] != 0:
+                    enemyCount += 1
+        ret = playerCount - enemyCount
+        if enemyCount == 0:
+            ret = infinity
+        elif playerCount == 0:
+            ret = -infinity
+        return ret
+
 
 
 #class env:
