@@ -1,0 +1,69 @@
+# Uniwersytet Śląski
+
+## Wydział Nauk Ścisłych i Technicznych
+
+### Teoria gier na przykładzie gry Fanarona
+
+> Wykonał: Mateusz Klimaszewski, Krzysztof Para, gr. PGK 2.
+
+<div style="page-break-after: always; visibility: hidden"> 
+
+</div>
+
+## Spis treści:
+
+- Złożność gry:
+    - <a href="#ZG">Złożność gry Fanarona</a>
+- Algorytm MinMax:
+    - <a href="#AMM">Algorytm MinMax</a>
+
+> Gra, która posłuży do implementacji algorytmów oraz badań to Fanarona: 
+- <a href="https://boardgamegeek.com/boardgame/4386/fanorona">Opis gry Fanarona - boardgamegeek.com</a>
+>Projekt został wykonany w języku Python oraz przy wykorzystaniu dodatkowych bibliotek:
+ > * NumPy
+ > * statistics 
+ 
+<div style="page-break-after: always; visibility: hidden"> 
+</div>
+
+<div id="ZG"></div>
+
+# Złożność gry Fanarona
+
+## Branching Factor:
+
+> Przy 5 tysiącach rozgrywek średnia możliwa ilość ruchów w danym momencie wynosi:
+
+<div style="text-align:center"><h2>b = 5.49</h2></div>
+
+## Depth:
+
+> W trakcie rozgrywanych tur średnia ilość ruchów podczas całej gry wynosi 
+
+<div style="text-align:center"><h2>d = 68.82</h2></div>
+
+## Złożoność gry wynosi:
+
+
+<div style="text-align:center"><h2>𝑏^𝑑 = 5.4968.82 ≈ 1.2162576𝑒+51</h2></div>
+
+<div id="AMM"></div>
+
+# Algorytm MinMax
+
+### Algorytm MinMax zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
+
+## Funkcja kosztu
+>Z racji, że w grze Fanorona każdy pion ma tą samą wartość, a wygrana jest uzależniona tylko od momentu, gdy przeciwnik
+>nie posiada już pionów, w funkcji kosztu uwzględniliśmy tylko ilość pionów przeciwnika. Funkcja kosztu sprawdza ilość 
+>pionków danego gracza i odejmując tą ilość od ilości pionków przeciwnika wyznacza przewagę.
+>
+Liczba wygranych gier  | Głębokość 
+------------ | -------------
+463 (92,6 %)  | 1
+500 (100 %)  | 2
+`Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym.`
+
+
+
+
