@@ -19,10 +19,8 @@ class Player:
         self.Name = name
         self.playerNumber = playerNumber
 
-    # TODO dla pewności blokować przejścia na nie puste miejsca(ale ruchy powinny być robione z listy dostępnych więc wyjebane)
-    #zwraca nową planszę, boola informującego czy pionek zbił i kierunek bicia
     @classmethod
-    def MakeMove(cls, board: Board, move: Move):
+    def MakeMove(cls, board: Board, move: Move) -> tuple[numpy.ndarray, list]:
         boardCopy = board.fields.copy()
 
         currentPos = move.position
@@ -182,22 +180,18 @@ class Player:
 
         
         return value
-
-    
+  
     # random move
     def AIRandom(self, board: Board):
 
         allMoves = board.GetAllPlayerMovements(self.playerNumber)
         movecount = len(allMoves)
+        retChangePlayer = True
 
         if movecount != 0:
             board1, allMoves = self.MakeMove(
                 board, allMoves[random.randint(0, movecount - 1)])
-            board.fields = board1
+            if allMoves != None and len(allMoves) > 0:
+                retChangePlayer = False
 
-            while allMoves != None and len(allMoves) > 0:
-                movecount = len(allMoves)
-
-                board1, allMoves = self.MakeMove(
-                    board, allMoves[random.randint(0, movecount - 1)])
-                board.fields = board1
+        return 0, board1, retChangePlayer

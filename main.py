@@ -26,10 +26,8 @@ def PlayARandomGame():
         movecounter += 1
 
         if player == player2:
-            #moveVal, board, changePlayer = player.AI_MinMax(1, engine)
-            #engine.fields = board
-            player.AIRandom(engine)
-            changePlayer = True
+            moveVal, board, changePlayer = player.AIRandom(engine)
+            engine.fields = board
 
         else:
             moveVal, board, changePlayer = player.AI_MinMax(2, engine)
@@ -53,7 +51,7 @@ def main():
     meanPossibleMoveAmountList = []
     winsList = []
 
-    for i in range(100):
+    for i in range(500):
         print(i)
         count, moveAmountList, wins = PlayARandomGame()
         MoveCountList.append(count)
