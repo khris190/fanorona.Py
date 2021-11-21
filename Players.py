@@ -1,8 +1,11 @@
 import random
 
+from typing import Tuple
+
 from primitives import *
 from fanorona import Board
 import random
+
 infinityEval = 2147483648
 infinity = 32767
 
@@ -20,7 +23,7 @@ class Player:
         self.playerNumber = playerNumber
 
     @classmethod
-    def MakeMove(cls, board: Board, move: Move) -> tuple[numpy.ndarray, list]:
+    def MakeMove(cls, board: Board, move: Move) -> Tuple[numpy.ndarray, list]:
         boardCopy = board.fields.copy()
 
         currentPos = move.position
@@ -67,9 +70,8 @@ class Player:
                 wasBeaten = True
                 tmpX -= move.direction.x
                 tmpY -= move.direction.y
-    
 
-        #sprawdzić czy wszystkie ruchy są bez bicia
+        # sprawdzić czy wszystkie ruchy są bez bicia
         nextMoves = []
         if wasBeaten:
             tmpBoard = Board()
@@ -97,6 +99,8 @@ class Player:
 
         return boardCopy, nextMoves
 
+    def AI(self, playerType: PlayerTypeEnum, board: Board) -> bool:
+        moves = board.GetAllPlayerMovements(playerType)
 
     def AI_MinMax(self, depth: int, board: Board):
         movesList = board.GetAllPlayerMovements(self.playerNumber)
@@ -107,7 +111,6 @@ class Player:
         retBoard.fields = board.fields.copy()
         retChangePlayer = False
 
-
         for move in movesList:
             tmpBoard = Board()
             tmpBoard.fields = board.fields.copy()
@@ -116,10 +119,10 @@ class Player:
             tmpBoard.fields = returnedBoard.copy()
             changePlayer = True
 
-            #liczę kilkukrotne zbicia jako tą samą turę
+            # liczę kilkukrotne zbicia jako tą samą turę
             if allMoves != None and len(allMoves) > 0:
                 value = max(value, self.MinMax(depth, tmpBoard, self.playerNumber, allMoves, True))
-                changePlayer = False 
+                changePlayer = False
             else:
                 playerNum = 1
                 if self.playerNumber == 1:
@@ -127,16 +130,14 @@ class Player:
                 movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
                 value = max(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, False))
 
-
             if winValue < value:
                 winValue = value
                 retBoard = tmpBoard
                 retChangePlayer = changePlayer
 
-        return  winValue, retBoard.fields, retChangePlayer
-        
+        return winValue, retBoard.fields, retChangePlayer
 
-    def MinMax(self, depth: int, board: Board, playerNumber: int, movesList : list, maximizing: bool):
+    def MinMax(self, depth: int, board: Board, playerNumber: int, movesList: list, maximizing: bool):
         nodeVal = board.CalculatePlayerLead(playerNumber)
         if depth < 1 or infinity == nodeVal or infinity == -nodeVal:
             if not maximizing:
@@ -151,7 +152,7 @@ class Player:
                 returnedBoard, allMoves = self.MakeMove(tmpBoard, move)
                 tmpBoard.fields = returnedBoard.copy()
 
-                #liczę kilkukrotne zbicia jako tą samą turę
+                # liczę kilkukrotne zbicia jako tą samą turę
                 if allMoves != None and len(allMoves) > 0:
                     value = max(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, True))
                 else:
@@ -160,6 +161,7 @@ class Player:
                         playerNum = 2
                     movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
                     value = max(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, False))
+            return value
         else:
             value = infinityEval
             for move in movesList:
@@ -168,7 +170,7 @@ class Player:
                 returnedBoard, allMoves = self.MakeMove(tmpBoard, move)
                 tmpBoard.fields = returnedBoard.copy()
 
-                #liczę kilkukrotne zbicia jako tą samą turę
+                # liczę kilkukrotne zbicia jako tą samą turę
                 if allMoves != None and len(allMoves) > 0:
                     value = min(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, False))
                 else:
@@ -177,10 +179,8 @@ class Player:
                         playerNum = 2
                     movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
                     value = min(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, True))
+            return value
 
-        
-        return value
-  
     # random move
     def AIRandom(self, board: Board):
 

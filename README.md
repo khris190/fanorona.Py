@@ -65,6 +65,20 @@ Liczba wygranych gier  | Głębokość
 
 `Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym.`
 
+# Algorytm AlphaBeta
+
+Algorytm MinMax zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
+
+
+
+Wykonano po 500 rozgrywek dla każdego z algorytmów:
+
+Alogrytm  | Średni czas pojedynczego ruchu | Średni czas całej rozgrywki
+------------ | ------------- | -------------
+MinMax  | 0.41520 | 7.2629
+AlphaBeta  | 0.1736 | 2.9398
+
+`Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym.`
 
 
 
