@@ -206,5 +206,8 @@ class Player:
 
         return 0, board1, retChangePlayer, end - start
 
-    def AIAlphaBeta(self, depth: int, board: Board):
+    def AIAlphaBeta(self, depth: int, board: Board, alpha, beta,):
+        pass
+
+    def AlphaBeta(self, depth: int, board: Board, playerNumber: int, movesList : list, alpha, beta, maximizing: bool):
         pass
