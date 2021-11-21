@@ -197,17 +197,29 @@ class Player:
         retChangePlayer = True
 
         if movecount != 0:
-            board1, allMoves = self.MakeMove(
+            retBoard, allMoves = self.MakeMove(
                 board, allMoves[random.randint(0, movecount - 1)])
             if allMoves != None and len(allMoves) > 0:
                 retChangePlayer = False
 
         end = time.time()
 
-        return 0, board1, retChangePlayer, end - start
+        return 0, retBoard, retChangePlayer, end - start
 
     def AIAlphaBeta(self, depth: int, board: Board, alpha, beta,):
-        pass
+        
+        start = time.time()
+
+
+        
+        # tu kod
+
+
+
+        end = time.time()
+
+        return 0, retBoard, retChangePlayer, end - start
+
 
     def AlphaBeta(self, depth: int, board: Board, playerNumber: int, movesList : list, alpha, beta, maximizing: bool):
         pass
