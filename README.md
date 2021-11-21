@@ -14,12 +14,16 @@
     - <a href="#ZG">Złożność gry Fanarona</a>
 - Algorytm MinMax:
     - <a href="#AMM">Algorytm MinMax</a>
+- Algorytm AlphaBeta:
+    - <a href="#AB">Algorytm AlphaBeta</a>
 ## Opis:
 - Gra, która posłuży do implementacji algorytmów oraz badań to Fanarona: 
     - <a href="https://boardgamegeek.com/boardgame/4386/fanorona">Opis gry Fanarona - boardgamegeek.com</a>
 - Projekt został wykonany w języku Python oraz przy wykorzystaniu dodatkowych bibliotek:
   * NumPy
   * statistics 
+  * typing
+  * time
  
 <div style="page-break-after: always; visibility: hidden"> 
 </div>
@@ -64,6 +68,7 @@ Liczba wygranych gier  | Głębokość
 500 (100 %)  | 2
 
 `Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym.`
+<div id="AB"></div>
 
 # Algorytm AlphaBeta
 
