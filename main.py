@@ -13,6 +13,7 @@ def PlayARandomGame():
     player2 = Player(PlayerTypeEnum.Human, "dos", 2)
 
     moveamount = []
+    moveTime = []
     movecounter = 0
     player = player1
     allMoves = engine.GetAllPlayerMovements(player.playerNumber)
@@ -26,11 +27,11 @@ def PlayARandomGame():
         movecounter += 1
 
         if player == player2:
-            moveVal, board, changePlayer = player.AIRandom(engine)
+            moveVal, board, changePlayer, eclipsed = player.AIRandom(engine)
             engine.fields = board
 
         else:
-            moveVal, board, changePlayer = player.AI_MinMax(2, engine)
+            moveVal, board, changePlayer, eclipsed2 = player.AI_MinMax(3, engine)
             engine.fields = board
 
         if changePlayer:
@@ -42,22 +43,24 @@ def PlayARandomGame():
         allMoves = engine.GetAllPlayerMovements(player.playerNumber)
         movecount = len(allMoves)
         moveamount.append(movecount)
+        moveTime.append(eclipsed2)
     print(engine.fields[:][:])
-    return movecounter, moveamount, engine.CalculatePlayerLead(1) > 0
+    return movecounter, moveamount, moveTime, engine.CalculatePlayerLead(1) > 0
 
 
 def main():
     MoveCountList = []
+    MoveTimeList = []
     meanPossibleMoveAmountList = []
     winsList = []
 
-    for i in range(500):
+    for i in range(2):
         print(i)
-        count, moveAmountList, wins = PlayARandomGame()
+        count, moveAmountList, moveTimeList, wins = PlayARandomGame()
         MoveCountList.append(count)
         winsList.append(wins)
         meanPossibleMoveAmountList.append(statistics.mean(moveAmountList))
-
+    print(statistics.mean(moveTimeList))
     print(statistics.mean(meanPossibleMoveAmountList))
     print(statistics.mean(MoveCountList))
     print(statistics.mean(winsList))

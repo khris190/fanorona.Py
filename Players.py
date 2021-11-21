@@ -2,7 +2,7 @@ import random
 
 from primitives import *
 from fanorona import Board
-import random
+import time
 infinityEval = 2147483648
 infinity = 32767
 
@@ -99,6 +99,9 @@ class Player:
 
 
     def AI_MinMax(self, depth: int, board: Board):
+
+        start = time.time()
+
         movesList = board.GetAllPlayerMovements(self.playerNumber)
 
         value = -infinityEval
@@ -133,7 +136,10 @@ class Player:
                 retBoard = tmpBoard
                 retChangePlayer = changePlayer
 
-        return  winValue, retBoard.fields, retChangePlayer
+
+        end = time.time()
+
+        return  winValue, retBoard.fields, retChangePlayer, end - start
         
 
     def MinMax(self, depth: int, board: Board, playerNumber: int, movesList : list, maximizing: bool):
@@ -153,13 +159,13 @@ class Player:
 
                 #liczę kilkukrotne zbicia jako tą samą turę
                 if allMoves != None and len(allMoves) > 0:
-                    value = max(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, True))
+                    value = max(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, maximizing))
                 else:
                     playerNum = 1
                     if playerNumber == 1:
                         playerNum = 2
                     movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
-                    value = max(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, False))
+                    value = max(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, not maximizing))
         else:
             value = infinityEval
             for move in movesList:
@@ -170,19 +176,21 @@ class Player:
 
                 #liczę kilkukrotne zbicia jako tą samą turę
                 if allMoves != None and len(allMoves) > 0:
-                    value = min(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, False))
+                    value = min(value, self.MinMax(depth, tmpBoard, playerNumber, allMoves, maximizing))
                 else:
                     playerNum = 1
                     if playerNumber == 1:
                         playerNum = 2
                     movesListtmp = tmpBoard.GetAllPlayerMovements(playerNum)
-                    value = min(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, True))
+                    value = min(value, self.MinMax(depth - 1, tmpBoard, playerNum, movesListtmp, not maximizing))
 
         
         return value
   
     # random move
     def AIRandom(self, board: Board):
+
+        start = time.time()
 
         allMoves = board.GetAllPlayerMovements(self.playerNumber)
         movecount = len(allMoves)
@@ -194,4 +202,9 @@ class Player:
             if allMoves != None and len(allMoves) > 0:
                 retChangePlayer = False
 
-        return 0, board1, retChangePlayer
+        end = time.time()
+
+        return 0, board1, retChangePlayer, end - start
+
+    def AIAlphaBeta(self, depth: int, board: Board):
+        pass
