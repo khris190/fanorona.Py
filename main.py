@@ -2,7 +2,7 @@ import fanorona as game
 from Players import *
 import statistics
 import time
-from AiAlgorithms import AlphaBeta
+from AiAlgorithms import AlphaBeta, MinMax
 
 
 def PlayARandomGame():
@@ -28,7 +28,7 @@ def PlayARandomGame():
         else:
             t = time.process_time()
             alphaBeta = AlphaBeta(player)
-            moveVal, board, changePlayer = alphaBeta.AI_AlphaBeta(3, engine)
+            moveVal, board, changePlayer = alphaBeta.AI_AlphaBeta(2, engine)
             elapsed_time.append(time.process_time() - t)
 
             engine.fields = board
