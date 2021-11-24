@@ -2,7 +2,7 @@ import fanorona as game
 from Players import *
 import statistics
 import time
-from AiAlgorithms import AlphaBeta, MinMax
+from AiAlgorithms import AlphaBeta, MinMax, ABIterative
 
 
 def PlayARandomGame():
@@ -27,8 +27,8 @@ def PlayARandomGame():
             engine.fields = board
         else:
             t = time.process_time()
-            alphaBeta = AlphaBeta(player)
-            moveVal, board, changePlayer = alphaBeta.AI_AlphaBeta(2, engine)
+            abIterative = ABIterative(player)
+            moveVal, board, changePlayer = abIterative.AI_ABIterative(engine, 0)
             elapsed_time.append(time.process_time() - t)
 
             engine.fields = board
@@ -54,7 +54,7 @@ def main():
     meanPossibleMoveAmountList = []
     winsList = []
 
-    for i in range(100):
+    for i in range(10):
         t = time.process_time()
         print(i)
         count, moveAmountList, wins, avgOfElapsedTime = PlayARandomGame()
