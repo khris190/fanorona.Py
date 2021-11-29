@@ -88,6 +88,7 @@ AlphaBeta  | 0.1736 | 2.9398
 
 `Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym, lecz aby zobaczyć większe różnice czasowe zastosowano głębokość 3`
 <div id="UA"></div>
+
 ## Usprawnienie algorytmu AlphaBeta
 
 Usprawnienie algorytmu AlphaBeta, które zostało zaimplementowane polega wykonywaniu algorytmu AlphaBeta dla kolejnych, 
