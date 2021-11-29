@@ -16,6 +16,7 @@
     - <a href="#AMM">Algorytm MinMax</a>
 - Algorytm AlphaBeta:
     - <a href="#AB">Algorytm AlphaBeta</a>
+    - <a href="#UA">Usprawnienie algorytmu</a>
 ## Opis:
 - Gra, która posłuży do implementacji algorytmów oraz badań to Fanarona: 
     - <a href="https://boardgamegeek.com/boardgame/4386/fanorona">Opis gry Fanarona - boardgamegeek.com</a>
@@ -86,11 +87,12 @@ MinMax  | 0.41520 | 7.2629
 AlphaBeta  | 0.1736 | 2.9398
 
 `Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym, lecz aby zobaczyć większe różnice czasowe zastosowano głębokość 3`
-
+<div id="UA"></div>
 ## Usprawnienie algorytmu AlphaBeta
 
-Usprawnienie algorytmu AlphaBeta, które zostało zaimplementowane polega wykonywaniu algorytmu AlphaBeta dla kolejnych, doraz większych głebokości i przerwaniu sprawdzania w odpowiednim momencie, gdy upłynie czas równy połowie podanego czasu algorytm zaprzestaje sprawdzania kolejnej głębkości drzewa. 
-Algorytm przy początku gry wchodzi wtedy na głębkość ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość 
-utrzymuje się na poziomie 3. 
+Usprawnienie algorytmu AlphaBeta, które zostało zaimplementowane polega wykonywaniu algorytmu AlphaBeta dla kolejnych, 
+coraz to większych głebokości i przerwaniu sprawdzania w odpowiednim momencie. Gdy upłynie czas równy połowie podanego 
+czasu, algorytm zaprzestaje sprawdzania kolejnej głębkości drzewa. Algorytm przy początku gry wchodzi na głębkość 
+ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość utrzymuje się na poziomie 3. 
 
 
