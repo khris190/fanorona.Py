@@ -16,6 +16,6 @@ class ABIterative:
         for i in range(2, infinity):
             alphaBeta = AiAlgorithms.AlphaBeta(self.player)
             moveVal, retBoard, changePlayer = alphaBeta.AI_AlphaBeta(i, board)
-            if time.process_time() - t > (maxTime):
+            if time.process_time() - t > (maxTime/2):
                 break
         return moveVal, retBoard, changePlayer
