@@ -53,7 +53,8 @@
 
 # Algorytm MinMax
 
-Algorytm MinMax zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
+Algorytm MinMax zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  
+wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
 
 ## Funkcja kosztu
 >Z racji, że w grze Fanorona każdy pion ma tą samą wartość, a wygrana jest uzależniona tylko od momentu, gdy przeciwnik
@@ -72,7 +73,8 @@ Liczba wygranych gier  | Głębokość
 
 # Algorytm AlphaBeta
 
-Algorytm AlphaBeta zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
+Algorytm AlphaBeta zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  
+wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
 
 
 
@@ -85,5 +87,11 @@ AlphaBeta  | 0.1736 | 2.9398
 
 `Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym, lecz aby zobaczyć większe różnice czasowe zastosowano głębokość 3`
 
+## Usprawnienie algorytmu AlphaBeta
+
+Usprawnienie algorytmu AlphaBeta, które zostało zaimplementowane polega na przerwaniu sprawdzania kolejnych głebkości
+drzew. Gdy upłynie czas równy połowie podanego czasu algorytm zaprzestaje sprawdzania kolejnej głębkości drzewa. 
+Algorytm przy początku gry wchodzi wtedy na głębkość ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość 
+utrzymuje się na poziomie 3. 
 
 
