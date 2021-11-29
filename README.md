@@ -89,8 +89,7 @@ AlphaBeta  | 0.1736 | 2.9398
 
 ## Usprawnienie algorytmu AlphaBeta
 
-Usprawnienie algorytmu AlphaBeta, które zostało zaimplementowane polega na przerwaniu sprawdzania kolejnych głebkości
-drzew. Gdy upłynie czas równy połowie podanego czasu algorytm zaprzestaje sprawdzania kolejnej głębkości drzewa. 
+Usprawnienie algorytmu AlphaBeta, które zostało zaimplementowane polega wykonywaniu algorytmu AlphaBeta dla kolejnych, doraz większych głebokości i przerwaniu sprawdzania w odpowiednim momencie, gdy upłynie czas równy połowie podanego czasu algorytm zaprzestaje sprawdzania kolejnej głębkości drzewa. 
 Algorytm przy początku gry wchodzi wtedy na głębkość ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość 
 utrzymuje się na poziomie 3. 
 
