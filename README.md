@@ -16,6 +16,7 @@
     - <a href="#AMM">Algorytm MinMax</a>
 - Algorytm AlphaBeta:
     - <a href="#AB">Algorytm AlphaBeta</a>
+    - <a href="#UA">Usprawnienie algorytmu</a>
 ## Opis:
 - Gra, która posłuży do implementacji algorytmów oraz badań to Fanarona: 
     - <a href="https://boardgamegeek.com/boardgame/4386/fanorona">Opis gry Fanarona - boardgamegeek.com</a>
@@ -53,7 +54,8 @@
 
 # Algorytm MinMax
 
-Algorytm MinMax zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
+Algorytm MinMax zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  
+wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
 
 ## Funkcja kosztu
 >Z racji, że w grze Fanorona każdy pion ma tą samą wartość, a wygrana jest uzależniona tylko od momentu, gdy przeciwnik
@@ -72,7 +74,8 @@ Liczba wygranych gier  | Głębokość
 
 # Algorytm AlphaBeta
 
-Algorytm AlphaBeta zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
+Algorytm AlphaBeta zaimplementowano w taki sposób, aby kierować ruchem tylko jednego z dwóch graczy. Celem wyżej  
+wymienionego algorytmu jest doprowadzenie do przegranej swojego przeciwnika (obecnie jest to gracz losowy).  
 
 
 
@@ -84,6 +87,13 @@ MinMax  | 0.41520 | 7.2629
 AlphaBeta  | 0.1736 | 2.9398
 
 `Powyższa funkcja już przy głębokości 2 jest w stanie wygrać 100% gier z przeciwnikiem losowym, lecz aby zobaczyć większe różnice czasowe zastosowano głębokość 3`
+<div id="UA"></div>
 
+## Usprawnienie algorytmu AlphaBeta
+
+Usprawnienie algorytmu AlphaBeta, które zostało zaimplementowane polega wykonywaniu algorytmu AlphaBeta dla kolejnych, 
+coraz to większych głebokości i przerwaniu sprawdzania w odpowiednim momencie. Gdy upłynie czas równy połowie podanego 
+czasu, algorytm zaprzestaje sprawdzania kolejnej głębkości drzewa. Algorytm przy początku gry wchodzi na głębkość 
+ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość utrzymuje się na poziomie 3. 
 
 
