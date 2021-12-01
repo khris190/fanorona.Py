@@ -2,7 +2,7 @@ import fanorona as game
 from Players import *
 import statistics
 import time
-from AiAlgorithms import AlphaBeta, MinMax, ABIterative
+from AiAlgorithms import AlphaBeta, MinMax, ABIterative, PNS
 
 
 def PlayARandomGame():
@@ -27,8 +27,9 @@ def PlayARandomGame():
             engine.fields = board
         else:
             t = time.process_time()
-            abIterative = ABIterative(player)
-            moveVal, board, changePlayer = abIterative.AI_ABIterative(engine, 0)
+            pnsPlayer = PNS(player)
+            #moveVal, board, changePlayer = pnsPlayer.PNS(engine, 1)
+            pnsPlayer.PNS(engine)
             elapsed_time.append(time.process_time() - t)
 
             engine.fields = board
