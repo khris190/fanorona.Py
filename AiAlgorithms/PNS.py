@@ -89,6 +89,7 @@ class PNS:
     def AIPNS(self,  Root: 'Board', maxTime: float = 60):
         self.maxTime = maxTime
         self.PNS(Root)
+        return self.root.proof >= infinity, (time.process_time() - self.startTime)
         return "test"
 
     def PNS(self,  Root: 'Board'):
@@ -100,6 +101,8 @@ class PNS:
         while self.root.proof != 0 and self.root.disproof != 0 and (time.process_time() - self.startTime) < (self.maxTime):
             mostProving = self.SelectMostProvinNode(current)
             self.ExpandNode(mostProving)
+            if not hasattr(mostProving, 'parent') and mostProving != self.root:
+                break
             current = self.UpdateAncestors(mostProving, self.root)
         
 
@@ -118,10 +121,10 @@ class PNS:
                     currNode.disproof += child.disproof
                     currNode.proof = min(currNode.proof, child.proof)
         else:
-            if  currNode.board.CalculatePlayerLead(self.root.player) > 100:
+            if  currNode.evaluation > 100:
                 currNode.proof = 0
                 currNode.disproof = infinity
-            elif currNode.board.CalculatePlayerLead(self.root.player) < -100:
+            elif currNode.evaluation < -100:
                 currNode.proof = infinity
                 currNode.disproof = 0
             else:
@@ -130,6 +133,8 @@ class PNS:
 
     def SelectMostProvinNode(self, node: Node):
         currNode = node
+        best = None
+        maxProofDisproof = 1000
         while currNode.expanded:
             value = infinity
             if currNode.type == Type.AND:
@@ -143,6 +148,8 @@ class PNS:
                         best = child
                         value = child.proof
             currNode = best
+            if not hasattr(currNode, 'parent') and currNode != self.root:
+                break
         return currNode
                 
 
@@ -164,6 +171,9 @@ class PNS:
 
     def UpdateAncestors(self, node: Node, root: Node):
         while node != root: 
+            #TODO poprawić, nie wiem jak to się dzieje
+            if not hasattr(node, 'parent') and node != self.root:
+                return root
             oldProof = node.proof
             oldDisproof = node.disproof
             self.SetProofAndDisproofNumbers(node)

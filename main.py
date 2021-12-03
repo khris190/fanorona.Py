@@ -12,14 +12,15 @@ def PlayARandomGame():
     player2 = Player(PlayerTypeEnum.Human, "dos", 2)
 
     moveamount = []
-    elapsed_time = []
+    WinFindTimes = []
+    FoundWinAmount = []
     movecounter = 0
     player = player1
     allMoves = engine.GetAllPlayerMovements(player.playerNumber)
     movecount = len(allMoves)
     moveamount.append(movecount)
-
-    while movecount > 0:
+    doLoop = True
+    while movecount > 0 and doLoop:
         movecounter += 1
 
         if player == player2:
@@ -32,9 +33,13 @@ def PlayARandomGame():
 
             engine.fields = board
 
-        if engine.GetPawnAmount(player.playerNumber) < 3:
+        if engine.GetPawnAmount(player.playerNumber) < 5:
             pns = PNS(player1)
-            pns.AIPNS(engine)
+            foundWin, findTime = pns.AIPNS(engine, 5)
+            FoundWinAmount.append(foundWin)
+            WinFindTimes.append(findTime)
+            if foundWin:
+                doLoop = False
 
 
         if changePlayer:
@@ -47,29 +52,27 @@ def PlayARandomGame():
         movecount = len(allMoves)
         moveamount.append(movecount)
     print(engine.fields[:][:])
-    return movecounter, moveamount, engine.CalculatePlayerLead(1) > 0
+    return movecounter, moveamount, FoundWinAmount, WinFindTimes
 
 
 def main():
-    timeOfMinMaxMove = []
     timeOfMinMaxGame = []
     MoveCountList = []
     meanPossibleMoveAmountList = []
-    winsList = []
 
     for i in range(10):
         t = time.process_time()
         print(i)
-        count, moveAmountList, wins = PlayARandomGame()
+        count, moveAmountList , FoundWinAmount, WinFindTimes = PlayARandomGame()
+        if  len(FoundWinAmount) > 0:
+            print('FoundWinamount' + (str)(statistics.mean(FoundWinAmount)))
+            print('winFindTImes' + (str)(statistics.mean(WinFindTimes)))
         MoveCountList.append(count)
-        winsList.append(wins)
         meanPossibleMoveAmountList.append(statistics.mean(moveAmountList))
         timeOfMinMaxGame.append(time.process_time() - t)
 
     print(statistics.mean(meanPossibleMoveAmountList))
     print(statistics.mean(MoveCountList))
-    print(statistics.mean(winsList))
-    print(statistics.mean(timeOfMinMaxMove))
     print(statistics.mean(timeOfMinMaxGame))
 
 
