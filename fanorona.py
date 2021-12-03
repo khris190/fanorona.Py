@@ -141,7 +141,19 @@ class Board:
             ret = -infinity
         return ret
 
-
+    def GetPawnAmount(self, playerNumber: int) -> int:
+        retVal = 0
+        for yarray in self.fields:
+            for x in yarray:
+                if x == playerNumber:
+                    retVal += 1
+        return retVal
+    
+    def GetTotalPawnAmount(self, playerNumber: int) -> int:
+        retVal = 0
+        if self.fields[:][:] != 0:
+            retVal += 1
+        return retVal
 
 #class env:
 #    board: Board

@@ -31,7 +31,7 @@ class Node:
 
 
     def generateChildren(self):
-        boardList = [Board]
+        boardList = []
         movesList = self.board.GetAllPlayerMovements(self.player)
         tmpBoard = Board()
         tmpBoard.fields = self.board.fields.copy()
@@ -56,19 +56,20 @@ class Node:
           
 
     def CutSubtree(self, rootBoard: 'Board', movesList) -> list[Board]:
-        retBoards = [Board]
+        retBoards = []
         #movesList = board.GetAllPlayerMovements(self.player.playerNumber)
         for move in movesList:
             returnedFields, allMoves = Player.MakeMove(rootBoard, move)
             returnedBoard = Board()
-            returnedBoard.fields = returnedFields
+            returnedBoard.fields = returnedFields.copy()
             if allMoves != None and len(allMoves) > 0:
-                retBoards.extend(returnedBoard)
-            else:
                 retBoards.extend(self.CutSubtree(returnedBoard, allMoves))
+            else:
+                retBoards.append(returnedBoard)
+                
         return retBoards
 
-
+#TODO jeszcze chyba nie wiem gdzie ustawiamy wygraną i czy dla aktualnego gracza czy dla roota
 class PNS:
 
     root: Node
@@ -85,20 +86,21 @@ class PNS:
         self.root.player = player.playerNumber
 
 
-    def AIPNS(self,  Root: 'Board'):
-        pass
+    def AIPNS(self,  Root: 'Board', maxTime: float = 60):
+        self.maxTime = maxTime
+        self.PNS(Root)
+        return "test"
 
     def PNS(self,  Root: 'Board'):
         self.root.board = Root
-        self.root.evaluation = self.root.board.CalculatePlayerLead(self.player.playerNumber)
+        self.Evaluate(self.root)
         self.SetProofAndDisproofNumbers(self.root)
         current = self.root
         self.startTime = time.process_time()
-        while self.root.proof != 0 and self.root.disproof != 0 and self.startTime - time.process_time() < self.maxTime*0.8:
+        while self.root.proof != 0 and self.root.disproof != 0 and (time.process_time() - self.startTime) < (self.maxTime):
             mostProving = self.SelectMostProvinNode(current)
             self.ExpandNode(mostProving)
-            current = self.UpdateAncestors(mostProving, Root)
-        return 'jebać ten przedmiot'
+            current = self.UpdateAncestors(mostProving, self.root)
         
 
     def SetProofAndDisproofNumbers(self, currNode: Node):
@@ -114,12 +116,12 @@ class PNS:
                 currNode.disproof = 0
                 for child in currNode.children:
                     currNode.disproof += child.disproof
-                    currNode.disproof = min(currNode.proof, child.proof)
+                    currNode.proof = min(currNode.proof, child.proof)
         else:
-            if currNode.value == 1:
+            if  currNode.board.CalculatePlayerLead(self.root.player) > 100:
                 currNode.proof = 0
                 currNode.disproof = infinity
-            elif currNode.value == -1:
+            elif currNode.board.CalculatePlayerLead(self.root.player) < -100:
                 currNode.proof = infinity
                 currNode.disproof = 0
             else:

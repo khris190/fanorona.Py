@@ -27,12 +27,15 @@ def PlayARandomGame():
             engine.fields = board
         else:
             t = time.process_time()
-            pnsPlayer = PNS(player)
-            #moveVal, board, changePlayer = pnsPlayer.PNS(engine, 1)
-            pnsPlayer.PNS(engine)
-            elapsed_time.append(time.process_time() - t)
+            pnsPlayer = ABIterative(player)
+            moveVal, board, changePlayer = pnsPlayer.AI_ABIterative(engine, 1)
 
             engine.fields = board
+
+        if engine.GetPawnAmount(player.playerNumber) < 3:
+            pns = PNS(player1)
+            pns.AIPNS(engine)
+
 
         if changePlayer:
             if player == player1:
@@ -43,9 +46,8 @@ def PlayARandomGame():
         allMoves = engine.GetAllPlayerMovements(player.playerNumber)
         movecount = len(allMoves)
         moveamount.append(movecount)
-    avgOfElapsedTime = statistics.mean(elapsed_time)
     print(engine.fields[:][:])
-    return movecounter, moveamount, engine.CalculatePlayerLead(1) > 0, avgOfElapsedTime
+    return movecounter, moveamount, engine.CalculatePlayerLead(1) > 0
 
 
 def main():
@@ -58,8 +60,7 @@ def main():
     for i in range(10):
         t = time.process_time()
         print(i)
-        count, moveAmountList, wins, avgOfElapsedTime = PlayARandomGame()
-        timeOfMinMaxMove.append(avgOfElapsedTime)
+        count, moveAmountList, wins = PlayARandomGame()
         MoveCountList.append(count)
         winsList.append(wins)
         meanPossibleMoveAmountList.append(statistics.mean(moveAmountList))
