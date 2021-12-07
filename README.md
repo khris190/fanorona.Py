@@ -110,6 +110,6 @@ dla 100 gier
 czas  | znalezione wygrane/przegrane | niepewne/nieskończone pętle
 ------------ | ------------- | -------------
 0.01s   | 5         | 95
-0.1s    | 8         | 92
-1s      | 14        | 86    
+0.1s    | 18        | 82
+1s      | 44        | 56    
 10s     | 68        | 32
