@@ -33,8 +33,8 @@ def PlayARandomGame():
 
             engine.fields = board
 
-        if engine.GetPawnAmount(player.playerNumber) < 5:
-            pns = PNS(player1)
+        if engine.GetPawnAmount(player.playerNumber) < 3:
+            pns = PNS(player2)
             foundWin, findTime = pns.AIPNS(engine, 5)
             FoundWinAmount.append(foundWin)
             WinFindTimes.append(findTime)
@@ -59,7 +59,8 @@ def main():
     timeOfMinMaxGame = []
     MoveCountList = []
     meanPossibleMoveAmountList = []
-
+    FoundWinAmounList = []
+    WinFindTimesList = []
     for i in range(10):
         t = time.process_time()
         print(i)
@@ -70,7 +71,7 @@ def main():
         MoveCountList.append(count)
         meanPossibleMoveAmountList.append(statistics.mean(moveAmountList))
         timeOfMinMaxGame.append(time.process_time() - t)
-
+    
     print(statistics.mean(meanPossibleMoveAmountList))
     print(statistics.mean(MoveCountList))
     print(statistics.mean(timeOfMinMaxGame))

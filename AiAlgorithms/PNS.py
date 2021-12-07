@@ -16,10 +16,10 @@ class Type(enum.IntEnum):
 
 class Node:
     board: 'Board'
-    parent: 'Node'
+    parent: 'Node' = None
     children = []
-    disproof: int = 0
-    proof: int = 0
+    disproof: int = None
+    proof: int = None
     evaluation: int = 0
     expanded = False
     value: int = 0
@@ -101,8 +101,6 @@ class PNS:
         while self.root.proof != 0 and self.root.disproof != 0 and (time.process_time() - self.startTime) < (self.maxTime):
             mostProving = self.SelectMostProvinNode(current)
             self.ExpandNode(mostProving)
-            if not hasattr(mostProving, 'parent') and mostProving != self.root:
-                break
             current = self.UpdateAncestors(mostProving, self.root)
         
 
@@ -112,12 +110,16 @@ class PNS:
                 currNode.proof = 0
                 currNode.disproof = infinity
                 for child in currNode.children:
+                    if child.disproof is None or child.proof is None:
+                        break
                     currNode.proof += child.proof
                     currNode.disproof = min(currNode.disproof, child.disproof)
             else:
                 currNode.proof = infinity
                 currNode.disproof = 0
                 for child in currNode.children:
+                    if child.disproof is None or child.proof is None:
+                        break
                     currNode.disproof += child.disproof
                     currNode.proof = min(currNode.proof, child.proof)
         else:
@@ -133,10 +135,10 @@ class PNS:
 
     def SelectMostProvinNode(self, node: Node):
         currNode = node
-        best = None
+        best: 'Node'
         maxProofDisproof = 1000
         while currNode.expanded:
-            value = infinity
+            value = infinity + 1
             if currNode.type == Type.AND:
                 for child in currNode.children:
                     if value > child.disproof:
@@ -148,8 +150,6 @@ class PNS:
                         best = child
                         value = child.proof
             currNode = best
-            if not hasattr(currNode, 'parent') and currNode != self.root:
-                break
         return currNode
                 
 
@@ -172,6 +172,8 @@ class PNS:
     def UpdateAncestors(self, node: Node, root: Node):
         while node != root: 
             #TODO poprawić, nie wiem jak to się dzieje
+            if node.parent == None:
+                return root
             if not hasattr(node, 'parent') and node != self.root:
                 return root
             oldProof = node.proof
