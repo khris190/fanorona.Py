@@ -17,6 +17,8 @@
 - Algorytm AlphaBeta:
     - <a href="#AB">Algorytm AlphaBeta</a>
     - <a href="#UA">Usprawnienie algorytmu</a>
+- algorytm PNS
+    - <a href="#PNS">Algorytm PNS</a>
 ## Opis:
 - Gra, która posłuży do implementacji algorytmów oraz badań to Fanarona: 
     - <a href="https://boardgamegeek.com/boardgame/4386/fanorona">Opis gry Fanarona - boardgamegeek.com</a>
@@ -97,3 +99,10 @@ czasu, algorytm zaprzestaje sprawdzania kolejnej głębkości drzewa. Algorytm p
 ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość utrzymuje się na poziomie 3. 
 
 
+
+
+<div id="PNS"></div>
+
+## Algorytm PNS
+
+Algorytm PNS zwykle jest w stanie koniec gry, choć czasem jest w stanie wejść w nieskończoną pętlę bo gracze mają możliwość powtarzania ruchów 
