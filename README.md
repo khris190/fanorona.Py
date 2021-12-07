@@ -105,4 +105,11 @@ ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość utrzymuje 
 
 ## Algorytm PNS
 
-Algorytm PNS zwykle jest w stanie koniec gry, choć czasem jest w stanie wejść w nieskończoną pętlę bo gracze mają możliwość powtarzania ruchów 
+Algorytm PNS zwykle jest w stanie koniec gry, choć czasem jest w stanie wejść w nieskończoną pętlę bo gracze mają możliwość powtarzania ruchów
+dla 100 gier
+czas  | znalezione wygrane/przegrane | niepewne/nieskończone pętle
+------------ | ------------- | -------------
+0.01s   | 5         | 95
+0.1s    | 8         | 92
+1s      | 14        | 86    
+10s     | 68        | 32
