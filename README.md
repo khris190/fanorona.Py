@@ -19,6 +19,8 @@
     - <a href="#UA">Usprawnienie algorytmu</a>
 - algorytm PNS
     - <a href="#PNS">Algorytm PNS</a>
+- Monte-Carlo Search
+    - <a href="#MTC">onte-Carlo Search</a>
 ## Opis:
 - Gra, która posłuży do implementacji algorytmów oraz badań to Fanarona: 
     - <a href="https://boardgamegeek.com/boardgame/4386/fanorona">Opis gry Fanarona - boardgamegeek.com</a>
@@ -113,3 +115,16 @@ czas  | znalezione wygrane/przegrane | niepewne/nieskończone pętle
 0.1s    | 18        | 82
 1s      | 44        | 56    
 10s     | 68        | 32
+
+
+
+<div id="MCS"></div>
+## Monte-Carlo Search
+wyniki dla algorytmu Monte Carlo
+NOS  | Wygrane | AVG czas
+------------ | ------------- | -------------
+3 | 0.7 | 10.44
+5| 0.75 | 17.35
+
+
+
