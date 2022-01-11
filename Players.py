@@ -99,12 +99,7 @@ class Player:
 
         return boardCopy, nextMoves
 
-    def AI(self, playerType: PlayerTypeEnum, board: Board) -> bool:
-        moves = board.GetAllPlayerMovements(playerType)
-
-    # random move
-    def AIRandom(self, board: Board):
-
+    def AIForMonteCarlo(self, playertNumber: int, board: Board) -> bool:
         allMoves = board.GetAllPlayerMovements(self.playerNumber)
         movecount = len(allMoves)
         retChangePlayer = True
@@ -116,3 +111,22 @@ class Player:
                 retChangePlayer = False
 
         return 0, board1, retChangePlayer
+
+    # random move
+    def AIRandom(self, board: Board):
+
+        allMoves = board.GetAllPlayerMovements(self.playerNumber)
+        movecount = len(allMoves)
+        retChangePlayer = True
+
+        while movecount != 0:
+            board1, allMoves = self.MakeMove(board, allMoves[random.randint(0, movecount - 1)])
+            board.fields = board1
+            movecount = len(allMoves)
+
+        return 0, board1, retChangePlayer
+
+    def GetEnemy(number : int):
+        if number == 1:
+            return 2
+        return 1

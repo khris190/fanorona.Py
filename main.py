@@ -2,7 +2,7 @@ import fanorona as game
 from Players import *
 import statistics
 import time
-from AiAlgorithms import AlphaBeta, MinMax, ABIterative, PNS
+from AiAlgorithms import AlphaBeta, MinMax, ABIterative, PNS, MonteCarlo
 
 
 def PlayARandomGame():
@@ -27,22 +27,14 @@ def PlayARandomGame():
             moveVal, board, changePlayer = player.AIRandom(engine)
             engine.fields = board
         else:
-            t = time.process_time()
-            pnsPlayer = ABIterative(player)
-            moveVal, board, changePlayer = pnsPlayer.AI_ABIterative(engine, 1)
-
+            play = MonteCarlo(player)
+            moveVal, board, changePlayer = play.AIMonteCarlo(engine, 5)
             engine.fields = board
 
-        if engine.GetPawnAmount(player.playerNumber) < 3:
-            pns = PNS(player2)
-            foundWin, findTime = pns.AIPNS(engine, 5)
-            FoundWinAmount.append(foundWin)
-            WinFindTimes.append(findTime)
-            if foundWin:
-                doLoop = False
 
 
         if changePlayer:
+            print(engine.fields[:][:])
             if player == player1:
                 player = player2
             else:
@@ -52,29 +44,27 @@ def PlayARandomGame():
         movecount = len(allMoves)
         moveamount.append(movecount)
     print(engine.fields[:][:])
-    return movecounter, moveamount, FoundWinAmount, WinFindTimes
+    return movecounter, moveamount, engine.CalculatePlayerLead(1) > 0
 
 
 def main():
     timeOfMinMaxGame = []
     MoveCountList = []
     meanPossibleMoveAmountList = []
-    FoundWinAmounList = []
-    WinFindTimesList = []
-    for i in range(10):
+    P1WonAmount = []
+    for i in range(20):
         t = time.process_time()
         print(i)
-        count, moveAmountList , FoundWinAmount, WinFindTimes = PlayARandomGame()
-        if  len(FoundWinAmount) > 0:
-            print('FoundWinamount' + (str)(statistics.mean(FoundWinAmount)))
-            print('winFindTImes' + (str)(statistics.mean(WinFindTimes)))
+        count, moveAmountList, P1Won = PlayARandomGame()
         MoveCountList.append(count)
         meanPossibleMoveAmountList.append(statistics.mean(moveAmountList))
+        P1WonAmount.append(P1Won)
         timeOfMinMaxGame.append(time.process_time() - t)
     
     print(statistics.mean(meanPossibleMoveAmountList))
     print(statistics.mean(MoveCountList))
     print(statistics.mean(timeOfMinMaxGame))
+    print(statistics.mean(P1WonAmount))
 
 
 main()
