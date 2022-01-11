@@ -121,6 +121,7 @@ czas  | znalezione wygrane/przegrane | niepewne/nieskończone pętle
 <div id="MCS"></div>
 ## Monte-Carlo Search
 wyniki dla algorytmu Monte Carlo
+
 NOS  | Wygrane | AVG czas
 ------------ | ------------- | -------------
 3   | 0.7     | 10.44
