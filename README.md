@@ -123,8 +123,8 @@ czas  | znalezione wygrane/przegrane | niepewne/nieskończone pętle
 wyniki dla algorytmu Monte Carlo
 NOS  | Wygrane | AVG czas
 ------------ | ------------- | -------------
-3 | 0.7 | 10.44
-5| 0.75 | 17.35
+3   | 0.7     | 10.44
+5   | 0.75    | 17.35
 
 
 
