@@ -118,7 +118,7 @@ czas  | znalezione wygrane/przegrane | niepewne/nieskończone pętle
 
 
 
-<div id="#MTC"></div>
+<div id="MTC"></div>
 
 ## Monte-Carlo Search
 Wyniki dla algorytmu Monte Carlo
