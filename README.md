@@ -21,6 +21,8 @@
     - <a href="#PNS">Algorytm PNS</a>
 - Monte-Carlo Search
     - <a href="#MTC">Monte-Carlo Search</a>
+- Monte-Carlo Tree Search
+    - <a href="#MCTS">Monte-Carlo Tree Search</a>
 ## Opis:
 - Gra, która posłuży do implementacji algorytmów oraz badań to Fanarona: 
     - <a href="https://boardgamegeek.com/boardgame/4386/fanorona">Opis gry Fanarona - boardgamegeek.com</a>
@@ -109,6 +111,7 @@ ok. 4, a pod koniec dochodzi nawet do 6. Zazwyczaj jednak głobkość utrzymuje 
 
 Algorytm PNS zwykle jest w stanie koniec gry, choć czasem jest w stanie wejść w nieskończoną pętlę bo gracze mają możliwość powtarzania ruchów
 dla 100 gier
+
 czas  | znalezione wygrane/przegrane | niepewne/nieskończone pętle
 ------------ | ------------- | -------------
 0.01s   | 5         | 95
@@ -127,6 +130,17 @@ NOS  | Wygrane | AVG czas
 ------------ | ------------- | -------------
 3   | 0.7     | 10.44
 5   | 0.75    | 17.35
+
+<div id="MCTS"></div>
+
+## Monte-Carlo Tree Search
+Wyniki dla algorytmu Monte Carlo Tree (UCT)
+
+NOS  | Wygrane | AVG czas
+------------ | ------------- | -------------
+3   | 0.6     | 15.34
+5   | 0.68    | 23.21
+
 
 
 

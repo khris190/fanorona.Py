@@ -2,7 +2,7 @@ import fanorona as game
 from Players import *
 import statistics
 import time
-from AiAlgorithms import AlphaBeta, MinMax, ABIterative, PNS, MonteCarlo
+from AiAlgorithms import AlphaBeta, MinMax, ABIterative, PNS, MonteCarlo, UCT
 
 
 def PlayARandomGame():
@@ -27,8 +27,8 @@ def PlayARandomGame():
             moveVal, board, changePlayer = player.AIRandom(engine)
             engine.fields = board
         else:
-            play = MonteCarlo(player)
-            moveVal, board, changePlayer = play.AIMonteCarlo(engine, 5)
+            play = UCT(player)
+            moveVal, board, changePlayer = play.UCTSearch(allMoves, engine, 5)
             engine.fields = board
 
 
