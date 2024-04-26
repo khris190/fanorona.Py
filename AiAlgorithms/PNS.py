@@ -90,7 +90,6 @@ class PNS:
         self.maxTime = maxTime
         self.PNS(Root)
         return self.root.proof >= infinity, (time.process_time() - self.startTime)
-        return "test"
 
     def PNS(self,  Root: 'Board'):
         self.root.board = Root
